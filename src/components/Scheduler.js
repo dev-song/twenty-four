@@ -1,4 +1,5 @@
 import React from 'react';
+import TimeForm from './TimeForm';
 
 class Scheduler extends React.Component {
   constructor() {
@@ -26,7 +27,7 @@ class Scheduler extends React.Component {
     console.log(this.state.schedule);
 
     return (
-      <div />
+      <TimeForm />
     )
   }
 }
