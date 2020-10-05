@@ -2,10 +2,11 @@ import React from 'react';
 
 function TimeForm({ addSchedule }) {
   function handleSubmit(event) {
-    const startTime = event.target[0].value,
-      endTime = event.target[1].value,
-      todo = event.target[2].value;
     event.preventDefault();
+
+    const startTime = parseInt(event.target[0].value),
+      endTime = parseInt(event.target[1].value),
+      todo = event.target[2].value;
 
     addSchedule(startTime, endTime, todo);
   }
@@ -26,7 +27,7 @@ function TimeForm({ addSchedule }) {
       </div>
       <input type='submit' value='추가' />
     </form>
-  )
+  );
 }
 
 export default TimeForm;
