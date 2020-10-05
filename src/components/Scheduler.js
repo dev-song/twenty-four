@@ -8,19 +8,23 @@ class Scheduler extends React.Component {
       schedule: []
     }
 
-    for (let i = 0; i < 24; i++) {
-      const obj = { time: i, todo: '' };
-      this.state.schedule.push(obj);
-    }
-
     this.addSchedule = this.addSchedule.bind(this);
     this.changeSchedule = this.changeSchedule.bind(this);
   }
 
-  changeSchedule(time, todo) {
+  changeSchedule(id, todo) {
     this.setState({
       schedule: this.state.schedule
-        .map(elm => elm.time === time ? { time, todo } : elm)
+        .map(elm => {
+          if (elm.id !== id) {
+            return elm;
+          }
+          return {
+            id,
+            time: elm.time,
+            todo
+          };
+        })
     })
   }
 
