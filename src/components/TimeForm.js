@@ -1,11 +1,13 @@
 import React from 'react';
+import './TimeForm.css';
 
 function validateSchedule(startTime, endTime, todo) {
-  const isStartTimeValid = startTime < 24 && startTime > 0,
-    isEndTimeValid = endTime <= 24 && endTime > startTime,
-    isTodoValid = todo.length <= 24;
+  const isInputValid =
+    (startTime < 24 && startTime > 0)
+    || (endTime <= 24 && endTime > startTime)
+    || todo.length <= 24;
 
-  if (!isStartTimeValid || !isEndTimeValid || !isTodoValid) {
+  if (!isInputValid) {
     return false;
   }
   return true;
@@ -26,21 +28,24 @@ function TimeForm({ addSchedule }) {
   }
 
   return (
-    <form className='time-form' onSubmit={handleSubmit}>
-      <div className='time-start'>
-        <label>시작시간</label>
-        <input type='number' min='0' max='24' placeholder='시작시간' required />
+    <div className='schedule-add'>
+      <div className='add-schedule__header'>
+        <h2 className='header__title'>일정 추가</h2>
+        <span className='header__button-expand' role='img' aria-label='Expand'>&#128317;</span>
       </div>
-      <div className='time-end'>
-        <label>종료시간</label>
-        <input type='number' min='0' max='24' placeholder='종료시간' required />
-      </div>
-      <div className='todo'>
-        <label>내용</label>
-        <input type='text' min='0' max='24' placeholder='내용' required />
-      </div>
-      <input type='submit' value='추가' />
-    </form>
+      <form className='add-schedule__form' onSubmit={handleSubmit}>
+        <div className='schedule__time-start'>
+          <input type='number' min='0' max='24' placeholder='시작시간' required />
+        </div>
+        <div className='schedule__time-end'>
+          <input type='number' min='0' max='24' placeholder='종료시간' required />
+        </div>
+        <div className='schedule__todo'>
+          <input type='text' min='0' max='24' placeholder='내용' required />
+        </div>
+        <input type='submit' value='&#10133;' />
+      </form>
+    </div>
   );
 }
 
