@@ -1,5 +1,6 @@
 import React from 'react';
 import TimeForm from './TimeForm';
+import TimeList from './TimeList';
 
 class Scheduler extends React.Component {
   constructor() {
@@ -39,11 +40,12 @@ class Scheduler extends React.Component {
   }
 
   render() {
-    console.log(this.state.schedule);
-
     return (
-      <TimeForm addSchedule={this.addSchedule} />
-    )
+      <div className='scheduler'>
+        <TimeForm addSchedule={this.addSchedule} />
+        <TimeList schedule={this.state.schedule} />
+      </div>
+    );
   }
 }
 
