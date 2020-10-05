@@ -13,8 +13,14 @@ function validateSchedule(startTime, endTime, todo) {
   return true;
 }
 
-function TimeForm({ addSchedule }) {
-  function handleSubmit(event) {
+class TimeForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
     event.preventDefault();
 
     const startTime = parseInt(event.target[0].value),
@@ -24,29 +30,31 @@ function TimeForm({ addSchedule }) {
     if (!validateSchedule(startTime, endTime, todo)) {
       return false;
     }
-    addSchedule(startTime, endTime, todo);
+    this.props.addSchedule(startTime, endTime, todo);
   }
 
-  return (
-    <div className='schedule-add'>
-      <div className='add-schedule__header'>
-        <h2 className='header__title'>일정 추가</h2>
-        <span className='header__button-expand' role='img' aria-label='Expand'>&#128317;</span>
+  render() {
+    return (
+      <div className='schedule-add'>
+        <div className='add-schedule__header'>
+          <h2 className='header__title'>일정 추가</h2>
+          <span className='header__button-expand' role='img' aria-label='Expand'>&#128317;</span>
+        </div>
+        <form className='add-schedule__form' onSubmit={this.handleSubmit}>
+          <div className='schedule__time-start'>
+            <input type='number' min='0' max='24' placeholder='시작시간' required />
+          </div>
+          <div className='schedule__time-end'>
+            <input type='number' min='0' max='24' placeholder='종료시간' required />
+          </div>
+          <div className='schedule__todo'>
+            <input type='text' min='0' max='24' placeholder='내용' required />
+          </div>
+          <input type='submit' value='&#10133;' />
+        </form>
       </div>
-      <form className='add-schedule__form' onSubmit={handleSubmit}>
-        <div className='schedule__time-start'>
-          <input type='number' min='0' max='24' placeholder='시작시간' required />
-        </div>
-        <div className='schedule__time-end'>
-          <input type='number' min='0' max='24' placeholder='종료시간' required />
-        </div>
-        <div className='schedule__todo'>
-          <input type='text' min='0' max='24' placeholder='내용' required />
-        </div>
-        <input type='submit' value='&#10133;' />
-      </form>
-    </div>
-  );
+    );
+  }
 }
 
 export default TimeForm;
