@@ -13,8 +13,8 @@ function TimeList({ schedule }) {
 
       {schedule.map(({ startTime, endTime, todo }, index) => (
         <div key={index} className='time-list__item'>
-          <span className='item__start-time'>{startTime}</span>
-          <span className='item__end-time'>{endTime}</span>
+          <span className='item__start-time'>{startTime < 10 ? `0${startTime}` : startTime}</span>
+          <span className='item__end-time'>{endTime < 10 ? `0${endTime}` : endTime}</span>
           <span className='item__todo'>{todo}</span>
         </div>
       ))}
