@@ -13,6 +13,7 @@ class Scheduler extends React.Component {
       this.state.schedule.push(obj);
     }
 
+    this.addSchedule = this.addSchedule.bind(this);
     this.changeSchedule = this.changeSchedule.bind(this);
   }
 
@@ -23,11 +24,21 @@ class Scheduler extends React.Component {
     })
   }
 
+  addSchedule(startTime, endTime, todo) {
+    const newSchedule = {
+      id: new Date().getTime(),
+      startTime,
+      endTime,
+      todo
+    };
+    this.setState({ schedule: [newSchedule, ...this.state.schedule] });
+  }
+
   render() {
     console.log(this.state.schedule);
 
     return (
-      <TimeForm />
+      <TimeForm addSchedule={this.addSchedule} />
     )
   }
 }
