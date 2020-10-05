@@ -1,0 +1,22 @@
+.add-shcedule__header {
+  position: relative;
+}
+
+.header__title {
+  margin: 0;
+  padding: 0.5rem 1rem;
+}
+
+.header__button-expand {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+
+  transform: translateY(-50%);
+}
+
+.add-schedule__form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
