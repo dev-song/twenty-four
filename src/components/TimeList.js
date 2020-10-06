@@ -1,7 +1,29 @@
 import React from 'react';
 
 function TimeList({ schedule }) {
-  console.log(schedule);
+  let startTime,
+    endTime,
+    content;
+  const newSchedule = [];
+  schedule.forEach(({ time, todo }, index, arr) => {
+    if (todo) {
+      if (!startTime) {
+        startTime = time;
+        content = todo;
+      }
+      if (!arr[index + 1] || todo !== arr[index + 1].todo) {
+        endTime = time + 1;
+        newSchedule.push({
+          startTime,
+          endTime,
+          content
+        });
+        startTime = undefined;
+        endTime = undefined;
+        content = undefined;
+      }
+    }
+  })
 
   return (
     <div className='time-list'>
@@ -11,11 +33,11 @@ function TimeList({ schedule }) {
         <span className='legends__todo'>내용</span>
       </div>
 
-      {schedule.map(({ startTime, endTime, todo }, index) => (
+      {newSchedule.map(({ startTime, endTime, content }, index) => (
         <div key={index} className='time-list__item'>
           <span className='item__start-time'>{startTime < 10 ? `0${startTime}` : startTime}</span>
           <span className='item__end-time'>{endTime < 10 ? `0${endTime}` : endTime}</span>
-          <span className='item__todo'>{todo}</span>
+          <span className='item__todo'>{content}</span>
         </div>
       ))}
     </div>
