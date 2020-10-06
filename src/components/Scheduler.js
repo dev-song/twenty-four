@@ -34,6 +34,13 @@ class Scheduler extends React.Component {
   }
 
   addSchedule(startTime, endTime, content) {
+    for (let i = startTime; i < endTime; i++) {
+      if (this.state.schedule[i].todo || this.state.schedule[i].id) {
+        alert('이미 해당 시간대에 일정이 있습니다.');
+        return;
+      }
+    }
+
     this.setState({
       schedule: this.state.schedule.map(({ time, todo, id }) => {
         if (time >= startTime && time < endTime) {
