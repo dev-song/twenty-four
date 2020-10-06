@@ -9,6 +9,10 @@ class Scheduler extends React.Component {
       schedule: []
     }
 
+    for (let i = 0; i < 24; i++) {
+      this.state.schedule.push({ time: i, todo: null, id: null });
+    }
+
     this.addSchedule = this.addSchedule.bind(this);
     this.changeSchedule = this.changeSchedule.bind(this);
   }
@@ -29,14 +33,19 @@ class Scheduler extends React.Component {
     })
   }
 
-  addSchedule(startTime, endTime, todo) {
-    const newSchedule = {
-      id: new Date().getTime(),
-      startTime,
-      endTime,
-      todo
-    };
-    this.setState({ schedule: [newSchedule, ...this.state.schedule] });
+  addSchedule(startTime, endTime, content) {
+    this.setState({
+      schedule: this.state.schedule.map(({ time, todo, id }) => {
+        if (time >= startTime && time < endTime) {
+          return {
+            time,
+            todo: content,
+            id: new Date().getTime()
+          }
+        }
+        return { time, todo, id };
+      })
+    })
   }
 
   render() {
