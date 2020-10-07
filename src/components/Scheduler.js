@@ -10,10 +10,22 @@ class Scheduler extends React.Component {
     }
 
     for (let i = 0; i < 24; i++) {
-      this.state.schedule.push({ time: i, todo: null, id: null });
+      let todo = null,
+        id = null;
+
+      // dummy data
+      if (i < 24) { todo = 'Night'; id = 5; }
+      if (i < 21) { todo = 'Evening'; id = 4; }
+      if (i < 18) { todo = 'Afternoon'; id = 3; }
+      if (i < 12) { todo = 'Morning'; id = 2; }
+      if (i < 7) { todo = 'Sleep'; id = 1; }
+      // END of dummy data
+
+      this.state.schedule.push({ time: i, todo, id });
     }
 
     this.addSchedule = this.addSchedule.bind(this);
+    this.deleteSchedule = this.deleteSchedule.bind(this);
     this.changeSchedule = this.changeSchedule.bind(this);
   }
 
@@ -52,6 +64,21 @@ class Scheduler extends React.Component {
     })
   }
 
+  deleteSchedule(scheduleId) {
+    this.setState({
+      schedule: this.state.schedule.map(({ time, todo, id }) => {
+        if (id === scheduleId) {
+          return {
+            time,
+            todo: null,
+            id: null
+          }
+        }
+        return { time, todo, id };
+      })
+    })
+  }
+
   checkSchedule(startTime, endTime) {
     for (let i = startTime; i < endTime; i++) {
       if (this.state.schedule[i].todo || this.state.schedule[i].id) {
@@ -64,10 +91,15 @@ class Scheduler extends React.Component {
   }
 
   render() {
+    console.log(this.state.schedule);
+
     return (
       <div className='scheduler'>
         <TimeForm addSchedule={this.addSchedule} />
-        <TimeList schedule={this.state.schedule} />
+        <TimeList
+          schedule={this.state.schedule}
+          deleteSchedule={this.deleteSchedule}
+        />
       </div>
     );
   }
