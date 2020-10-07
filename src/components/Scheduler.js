@@ -26,23 +26,6 @@ class Scheduler extends React.Component {
 
     this.addSchedule = this.addSchedule.bind(this);
     this.deleteSchedule = this.deleteSchedule.bind(this);
-    this.changeSchedule = this.changeSchedule.bind(this);
-  }
-
-  changeSchedule(id, todo) {
-    this.setState({
-      schedule: this.state.schedule
-        .map(elm => {
-          if (elm.id !== id) {
-            return elm;
-          }
-          return {
-            id,
-            time: elm.time,
-            todo
-          };
-        })
-    })
   }
 
   addSchedule(startTime, endTime, content) {
@@ -91,8 +74,6 @@ class Scheduler extends React.Component {
   }
 
   render() {
-    console.log(this.state.schedule);
-
     return (
       <div className='scheduler'>
         <TimeForm addSchedule={this.addSchedule} />
