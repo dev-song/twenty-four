@@ -34,11 +34,8 @@ class Scheduler extends React.Component {
   }
 
   addSchedule(startTime, endTime, content) {
-    for (let i = startTime; i < endTime; i++) {
-      if (this.state.schedule[i].todo || this.state.schedule[i].id) {
-        alert('이미 해당 시간대에 일정이 있습니다.');
-        return;
-      }
+    if (!this.checkSchedule(startTime, endTime)) {
+      return;
     }
 
     this.setState({
@@ -53,6 +50,17 @@ class Scheduler extends React.Component {
         return { time, todo, id };
       })
     })
+  }
+
+  checkSchedule(startTime, endTime) {
+    for (let i = startTime; i < endTime; i++) {
+      if (this.state.schedule[i].todo || this.state.schedule[i].id) {
+        alert('이미 해당 시간대에 일정이 있습니다.');
+        return false;
+      }
+    }
+
+    return true;
   }
 
   render() {
