@@ -1,13 +1,13 @@
 import React from 'react';
 
-function TimeList({ schedule }) {
+function TimeList({ schedule, deleteSchedule }) {
   let startTime,
     endTime,
     content;
   const newSchedule = [];
-  schedule.forEach(({ time, todo }, index, arr) => {
+  schedule.forEach(({ time, todo, id }, index, arr) => {
     if (todo) {
-      if (!startTime) {
+      if (!startTime && startTime !== 0) {
         startTime = time;
         content = todo;
       }
@@ -16,14 +16,15 @@ function TimeList({ schedule }) {
         newSchedule.push({
           startTime,
           endTime,
-          content
+          content,
+          id
         });
         startTime = undefined;
         endTime = undefined;
         content = undefined;
       }
     }
-  })
+  });
 
   return (
     <div className='time-list'>
@@ -33,11 +34,17 @@ function TimeList({ schedule }) {
         <span className='legends__todo'>내용</span>
       </div>
 
-      {newSchedule.map(({ startTime, endTime, content }, index) => (
+      {newSchedule.map(({ startTime, endTime, content, id }, index) => (
         <div key={index} className='time-list__item'>
           <span className='item__start-time'>{startTime < 10 ? `0${startTime}` : startTime}</span>
           <span className='item__end-time'>{endTime < 10 ? `0${endTime}` : endTime}</span>
           <span className='item__todo'>{content}</span>
+          <span
+            className='item__button-delete'
+            role='img'
+            aria-label='Delete'
+            onClick={() => { deleteSchedule(id) }}
+          >&#10060;</span>
         </div>
       ))}
     </div>
