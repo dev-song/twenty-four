@@ -1,17 +1,7 @@
 import React from 'react';
 import './TimeForm.css';
 
-function validateSchedule(startTime, endTime, todo) {
-  const isInputValid =
-    (startTime < 24 && startTime > 0)
-    || (endTime <= 24 && endTime > startTime)
-    || todo.length <= 24;
 
-  if (!isInputValid) {
-    return false;
-  }
-  return true;
-}
 
 class TimeForm extends React.Component {
   constructor(props) {
@@ -20,6 +10,8 @@ class TimeForm extends React.Component {
       expanded: false,
       collapse: false
     }
+
+    this.addSchedule = props.addSchedule;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleExpand = this.handleExpand.bind(this);
@@ -32,10 +24,12 @@ class TimeForm extends React.Component {
       endTime = parseInt(event.target[1].value),
       todo = event.target[2].value;
 
-    if (!validateSchedule(startTime, endTime, todo)) {
+    if (!this.validateInput(startTime, endTime, todo)) {
       return false;
     }
-    this.props.addSchedule(startTime, endTime, todo);
+    this.addSchedule(startTime, endTime, todo);
+
+    this.clearInputField(event);
   }
 
   handleExpand() {
@@ -47,6 +41,22 @@ class TimeForm extends React.Component {
         expanded: !this.state.expanded
       });
     }, TRANSITION_DELAY);
+  }
+
+  validateInput(startTime, endTime, todo) {
+    return (startTime < 24 && startTime > 0)
+      || (endTime <= 24 && endTime > startTime)
+      || todo.length <= 24;
+  }
+
+  clearInputField(event) {
+    event.target.querySelectorAll('div > input').forEach((input, index) => {
+      input.value = '';
+
+      if (index === 0) {
+        input.focus();
+      }
+    })
   }
 
   render() {
