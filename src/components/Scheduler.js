@@ -1,7 +1,7 @@
 import React from 'react';
 import TimeForm from './TimeForm';
 import TimeList from './TimeList';
-import PieChart from './PieChart';
+import PieSchedule from './PieSchedule';
 
 class Scheduler extends React.Component {
   constructor() {
@@ -78,7 +78,7 @@ class Scheduler extends React.Component {
     return (
       <div className='scheduler'>
         <TimeForm addSchedule={this.addSchedule} />
-        <PieChart schedule={this.state.schedule} />
+        <PieSchedule />
         <TimeList
           schedule={this.state.schedule}
           deleteSchedule={this.deleteSchedule}
