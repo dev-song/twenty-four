@@ -1,24 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const data = [
-  {
-    name: 'Group A',
-    value: 800
-  },
-  {
-    name: 'Group B',
-    value: 300
-  },
-  {
-    name: 'Group C',
-    value: 300
-  },
-  {
-    name: 'Group D',
-    value: 200
-  }
-];
 const COLORS = [
   '#0088FE',
   '#00C49F',
@@ -44,27 +26,62 @@ const customLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, inde
   )
 }
 
-class PieSchedule extends React.Component {
-  render() {
-    return (
-      <PieChart width={800} height={480}>
-        <Pie
-          data={data}
-          cx={200}
-          cy={200}
-          label={customLabel}
-          labelLine={false}
-          innerRadius={0}
-          outerRadius={200}
-          fill="#111ddd"
-        >
-          {
-            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
-          }
-        </Pie>
-      </PieChart>
-    )
-  }
+function PieSchedule({ schedule }) {
+  const scheduleList = [];
+  let startTime,
+    endTime,
+    content;
+  schedule.forEach(({ time, todo, id }, index, arr) => {
+    if (!startTime && startTime !== 0) {
+      startTime = time;
+      content = todo;
+    }
+    if (!arr[index + 1] || todo !== arr[index + 1].todo) {
+      endTime = time + 1;
+      scheduleList.push({
+        startTime,
+        endTime,
+        content,
+        id
+      });
+      startTime = null;
+      endTime = null;
+      content = null;
+    }
+  })
+
+  const scheduleData = scheduleList.map(({ startTime, endTime, content }) => ({
+    name: content,
+    value: endTime - startTime
+  }));
+
+
+  return (
+    <PieChart width={800} height={480}>
+      <Pie
+        data={scheduleData}
+        dataKey='value'
+        cx={200}
+        cy={200}
+        label={customLabel}
+        labelLine={false}
+        innerRadius={0}
+        outerRadius={200}
+        startAngle={90}
+        endAngle={-270}
+        fill="#111ddd"
+      >
+        {
+          scheduleData.map((entry, index) => (
+            <Cell
+              key={index}
+              fill={COLORS[index % COLORS.length]}
+            />
+          ))
+        }
+      </Pie>
+    </PieChart>
+  )
 }
 
 export default PieSchedule;

@@ -78,7 +78,7 @@ class Scheduler extends React.Component {
     return (
       <div className='scheduler'>
         <TimeForm addSchedule={this.addSchedule} />
-        <PieSchedule />
+        <PieSchedule schedule={this.state.schedule} />
         <TimeList
           schedule={this.state.schedule}
           deleteSchedule={this.deleteSchedule}
